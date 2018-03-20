@@ -1,18 +1,43 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Hello World</h1>
+    <AddHorse v-on:newHorseSubmission="horseAddEvent"></AddHorse>
+    <button v-on:click="runRace">Run the Race</button>
+    <div class="horses">
+      <Horse v-for="(horse, index) in horses"
+        v-bind:name = "horse.name"
+        v-bind:jockey = "horse.jockey"
+        v-bind:key = "index"
+        v-bind:number = "index">
+      </Horse>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Horse from './components/Horse.vue'
+import AddHorse from './components/AddHorse.vue'
 
 export default {
   name: 'app',
-  components: {
-    HelloWorld
-  }
+  components: { Horse, AddHorse },
+  data: function() {
+    return {
+      horses: [
+        { name: 'Thunder', jockey: 'Sheldon' },
+        { name: 'Jandor', jockey: 'Nick' }
+      ]
+    }
+  },
+  methods: {
+      horseAddEvent: function(result) {
+        this.horses.push(result);
+      },
+      runRace: function() {
+        let horse = this.horses[Math.floor(Math.random() * this.horses.length)]
+        alert('Winning horse is: ' + horse.name + ', congratulations ' + horse.jockey);
+      }
+    }
 }
 </script>
 
@@ -24,5 +49,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+h2 {
+  color:pink;
+}
+
+.horses {
+
 }
 </style>
